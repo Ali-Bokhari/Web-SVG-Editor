@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CHANGE ME</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CHANGE ME">
+    <meta name="keywords" content="CHANGE ME">
+    <meta name="author" content="CHANGE ME">
+    <!-- Load jquery, bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <!-- Custom CSS End -->
+</head>
+<body>
+    <hr>
+    <h3>SVG Image Viewer</h3><hr>
+    <div id="file-log-panel" style="height:800px;overflow:auto;">
+    <table id="file-log-table" border="2" cellpadding=10 class="table text-center">
+      <tr class="table-warning">
+        <th>Image (click to download)</th>
+        <th>File name (click to download)</th>
+        <th>File size</th>
+        <th>Number of rectangles</th>
+        <th>Number of circles</th>
+        <th>Number of paths</th>
+        <th>Number of groups</th>
+      </tr>
+    </table>
+  </div>
+  <form action="upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="uploadFile" id="fileToUpload">
+    <input type="submit" value="Upload file" name="submit">
+  </form>
+
+  <hr>
+  <br><br>
+  <select class="form-control" id="images-list" name="images">
+    <option value="" disabled selected>Images</option>
+  </select>
+  <div id="SVG-view-panel">
+    <table id="view-table" border=2 cellpadding=5 class="table text-center">
+      <tr>
+        <td id="image-img" colspan="3"><img src="quad01_A2.svg" width="800px"></td>
+      </tr>
+      <tr class="table-warning">
+        <th>Title</th>
+        <th colspan="2">Description</th>
+      </tr>
+      <tr>
+        <td id="image-title">Title</td>
+        <td id="image-desc" colspan="2">Description</td>
+      </tr>
+      <tr class="table-warning">
+        <th>Component</th>
+        <th>Summary</th>
+        <th>Other attributes</th>
+      </tr>
+      <tfoot id="view-table-foot">
+      <tr>
+        <td>Example</td>
+        <td>Example summary</td>
+        <td>Attrs</td>
+      </tr>
+    </tfoot>
+    </table>
+
+    <hr>
+    <form id="edit-form">
+    <table class="table text-center">
+      <tr>
+        <td>
+          <select multiple class="form-control" id="images-list-edit" name="images">
+            <option value="" disabled selected>Attributes</option>
+          </select>
+        </td>
+        <td>
+          <div class="form-group">
+          <label for="edit-name">Name:</label>
+          <input type="text" name="name" id="edit-name"><br>
+          <label for="value">Value:</label>
+          <input type="edit-value" name="value" id="edit-value"><br>
+        </div>
+        </td>
+        <td>
+          <input type='submit' value="Edit/Add" class="btn btn-secondary">
+        </td>
+      </tr>
+    </table>
+  </form>
+  </div>
+
+
+    <hr>
+    <div id="blah">I am blah</div>
+    <hr>
+    <form ref='someform'
+          id='someform'>
+          <div class="form-group">
+                <label for="entryBox">Last Name</label>
+                <input type="text" class="form-control" id="entryBox" value="Value" placeholder="Placeholder">
+            </div>
+        <div class="form-group">
+            <input type='submit' class="btn btn-secondary">
+        </div>
+    </form>
+    <!-- Leave me at the bottom of body -->
+    <script src="/index.js"></script>
+</body>
+</html>
