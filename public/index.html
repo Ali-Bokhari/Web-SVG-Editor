@@ -19,7 +19,7 @@
 <body>
     <hr>
     <h3>SVG Image Viewer</h3><hr>
-    <div id="file-log-panel" style="height:800px;overflow:auto;">
+    <div id="file-log-panel">
     <table id="file-log-table" border="2" cellpadding=10 class="table text-center">
       <tr class="table-warning">
         <th>Image (click to download)</th>
@@ -45,7 +45,7 @@
   <div id="SVG-view-panel">
     <table id="view-table" border=2 cellpadding=5 class="table text-center">
       <tr>
-        <td id="image-img" colspan="3"><img src="quad01_A2.svg" width="800px"></td>
+        <td id="image-img" colspan="3"><img src="" alt="No image selected" width="800px"></td>
       </tr>
       <tr class="table-warning">
         <th>Title</th>
@@ -150,24 +150,6 @@
       <td><button id="filename-button" class="btn btn-secondary">Create SVG</button></td>
     </tr>
   </table>
-
-
-  <hr>
-
-    <hr>
-    <div id="blah">I am blah</div>
-    <hr>
-    <form ref='someform'
-          id='someform'>
-          <div class="form-group">
-                <label for="entryBox">Last Name</label>
-                <input type="text" class="form-control" id="entryBox" value="Value" placeholder="Placeholder">
-            </div>
-        <div class="form-group">
-            <input type='submit' class="btn btn-secondary">
-        </div>
-    </form>
-    <!-- Leave me at the bottom of body -->
-    <script src="/index.js"></script>
+  <script src="/index.js"></script>
 </body>
 </html>

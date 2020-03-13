@@ -1717,7 +1717,7 @@ void scaleRects(SVGimage *img, float scaler) {
 }
 
 void scaleCircs(SVGimage *img, float scaler) {
-	List *circs = getRects(img);
+	List *circs = getCircles(img);
 	void *elem;
 	ListIterator iter = createIterator(circs);
 	while ((elem = nextElement(&iter)) != NULL){

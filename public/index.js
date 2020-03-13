@@ -1,37 +1,18 @@
 // Put all onload AJAX calls here, and event listeners
 $(document).ready(function() {
     // On page-load AJAX Example
-    $.ajax({
-        type: 'get',            //Request type
-        dataType: 'json',       //Data type - we will use JSON for almost everything
-        url: '/someendpoint',   //The server endpoint we are connecting to
-        data: {
-            name1: "Value 1",
-            name2: "Value 2"
-        },
-        success: function (data) {
-            /*  Do something with returned object
-                Note that what we get is an object, not a string,
-                so we do not need to parse it on the server.
-                JavaScript really does handle JSONs seamlessly
-            */
-            $('#blah').html("On page load, received string '"+data.foo+"' from server");
-            //We write the object to the console to show that the request was successful
-            console.log(data);
-
-        },
-        fail: function(error) {
-            // Non-200 return, do something with error
-            $('#blah').html("On page load, received error from server");
-            console.log(error);
-        }
-    });
 
     $.ajax({
         type: 'get',
         dataType: 'json',
         url: '/images',
         success: function (data) {
+          if (Object.keys(data).length == 0) {
+            $("#file-log-table").append("<tr><td colspan=\"7\"> No files uploaded</td></tr>");
+          }
+          if (Object.keys(data).length > 5) {
+            $("#file-log-panel").attr("style", "height:800px;overflow:auto;");
+          }
           for(i in data){
             var row = $("#file-log-table").append(
               "<tr>" +
@@ -158,17 +139,6 @@ $(document).ready(function() {
           }
     });
   });
-
-    // Event listener form example , we can use this instead explicitly listening for events
-    // No redirects if possible
-    $('#someform').submit(function(e){
-        $('#blah').html("Form has data: "+$('#entryBox').val());
-        e.preventDefault();
-        //Pass data to the Ajax call, so it gets passed to the server
-        $.ajax({
-            //Create an object for connecting to another waypoint
-        });
-    });
 
     $('#edit-title-button').click(function(){
         $.ajax({

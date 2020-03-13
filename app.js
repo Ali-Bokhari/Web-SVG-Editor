@@ -45,6 +45,11 @@ app.post('/upload', function(req, res) {
     return res.status(400).send('No files were uploaded.');
   }
 
+  if (typeof req.files.uploadFile == 'undefined') {
+    res.redirect('/');
+    return;
+  }
+
   let uploadFile = req.files.uploadFile;
 
   // Use the mv() method to place the file somewhere on your server
@@ -94,14 +99,6 @@ let parser = ffi.Library('./libsvgparse', {
   'addComponent' : ['void',['pointer', 'int', 'pointer']],
   'scaleRects' : ['void', ['pointer', 'float']],
   'scaleCircs' : ['void', ['pointer', 'float']]
-});
-
-//Sample endpoint
-app.get('/someendpoint', function(req , res){
-  let retStr = req.query.name1 + " " + req.query.name2;
-  res.send({
-    foo: retStr
-  });
 });
 
 app.get('/images', function(req , res){
