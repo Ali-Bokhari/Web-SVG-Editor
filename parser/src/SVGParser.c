@@ -1326,7 +1326,7 @@ char* circleToJSON(const Circle *c) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 100 + 40 + 24 + 18 + strlen(c->units);
+	int len = 200 + 40 + 24 + 18 + strlen(c->units);
 	final = malloc(sizeof(char) * len);
 	char *attrs = attrListToJSON(c->otherAttributes);
 	snprintf(final, len, "{\"cx\":%.2f,\"cy\":%.2f,\"r\":%.2f,\"numAttr\":%d,\"units\":\"%s\",\"attrs\":%s}", c->cx, c->cy, c->r, getLength(c->otherAttributes), c->units, attrs);
@@ -1341,7 +1341,7 @@ char* rectToJSON(const Rectangle *r) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 100 + 43 + 32 + 18 + strlen(r->units);
+	int len = 200 + 43 + 32 + 18 + strlen(r->units);
 	final = malloc(sizeof(char) * (len));
 	char *attrs = attrListToJSON(r->otherAttributes);
 	snprintf(final, len, "{\"x\":%.2f,\"y\":%.2f,\"w\":%.2f,\"h\":%.2f,\"numAttr\":%d,\"units\":\"%s\",\"attrs\":%s}", r->x, r->y, r->width, r->height, getLength(r->otherAttributes), r->units, attrs);
@@ -1356,7 +1356,7 @@ char* pathToJSON(const Path *p) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 200 + 19 + 64 + 18;
+	int len = 300 + 19 + 64 + 18;
 	final = malloc(sizeof(char) * len);
 	char *attrs = attrListToJSON(p->otherAttributes);
 	snprintf(final, len, "{\"d\":\"%.64s\",\"numAttr\":%d,\"attrs\":%s}", p->data, getLength(p->otherAttributes), attrs);
@@ -1371,7 +1371,7 @@ char* groupToJSON(const Group *g) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 100 + 24 + 18 + 18;
+	int len = 200 + 24 + 18 + 18;
 	final = malloc(sizeof(char) * len);
 	char *attrs = attrListToJSON(g->otherAttributes);
 	int sum = getLength(g->rectangles) + getLength(g->circles) + getLength(g->paths) + getLength(g->groups);
@@ -1443,7 +1443,7 @@ char* circListToJSON(const List *list) {
 			return final;
 		}
 
-		int len = getLength((List*)list) * 200;
+		int len = getLength((List*)list) * 250;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1474,7 +1474,7 @@ char* rectListToJSON(const List *list) {
 			strcpy(final, "[]");
 			return final;
 		}
-		int len = getLength((List*)list) * 200;
+		int len = getLength((List*)list) * 250;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1506,7 +1506,7 @@ char* pathListToJSON(const List *list) {
 			return final;
 		}
 
-		int len = getLength((List*)list) * 200;
+		int len = getLength((List*)list) * 250;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1538,7 +1538,7 @@ char* groupListToJSON(const List *list) {
 			return final;
 		}
 
-		int len = getLength((List*)list) * 200;
+		int len = getLength((List*)list) * 250;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1613,6 +1613,7 @@ Rectangle* JSONtoRect(const char* svgString) {
 	rect->width = w;
 	rect->height = h;
 	strcpy(rect->units, units);
+	rect->otherAttributes = initializeList(&attributeToString, &deleteAttribute, &compareAttributes);
 
 	return rect;
 }
@@ -1631,6 +1632,7 @@ Circle* JSONtoCircle(const char* svgString) {
 	circle->cy = cy;
 	circle->r = r;
 	strcpy(circle->units, units);
+	circle->otherAttributes = initializeList(&attributeToString, &deleteAttribute, &compareAttributes);
 
 	return circle;
 }
@@ -1668,4 +1670,59 @@ char* getPathListJSON(SVGimage *img) {
 
 char* getGroupListJSON(SVGimage *img) {
 	return groupListToJSON(img->groups);
+}
+
+void setTitle(SVGimage *img, char *title) {
+	if (!img || !title) {
+		return;
+	}
+	strcpy(img->title, title);
+}
+
+void setDescription(SVGimage *img, char *description) {
+	if (!img || !description) {
+		return;
+	}
+	strcpy(img->description, description);
+}
+
+SVGimage *createSVG() {
+	SVGimage* img = malloc(sizeof(SVGimage));
+
+  strcpy(img->title, "");
+
+  strcpy(img->description, "");
+
+  strcpy(img->namespace, "http://www.w3.org/2000/svg");
+
+  img->rectangles = initializeList(&rectangleToString, &deleteRectangle, &compareRectangles);
+  img->paths = initializeList(&pathToString, &deletePath, &comparePaths);
+  img->circles = initializeList(&circleToString, &deleteCircle, &compareCircles);
+  img->groups = initializeList(&groupToString, &deleteGroup, &compareGroups);
+  img->otherAttributes = initializeList(&attributeToString, &deleteAttribute, &compareAttributes);
+
+  return img;
+}
+
+void scaleRects(SVGimage *img, float scaler) {
+	List *rects = getRects(img);
+	void *elem;
+	ListIterator iter = createIterator(rects);
+	while ((elem = nextElement(&iter)) != NULL){
+		Rectangle* tmpName = (Rectangle*)elem;
+		tmpName->width = (tmpName->width)*scaler;
+		tmpName->height = (tmpName->height)*scaler;
+	}
+	freeList(rects);
+}
+
+void scaleCircs(SVGimage *img, float scaler) {
+	List *circs = getRects(img);
+	void *elem;
+	ListIterator iter = createIterator(circs);
+	while ((elem = nextElement(&iter)) != NULL){
+		Circle* tmpName = (Circle*)elem;
+		tmpName->r = (tmpName->r)*scaler;
+	}
+	freeList(circs);
 }

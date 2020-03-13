@@ -68,10 +68,11 @@
       </tr>
     </tfoot>
     </table>
+    </div>
 
     <hr>
     <form id="edit-form">
-    <table class="table text-center">
+    <table class="table text-center table-borderless">
       <tr>
         <td>
           <select multiple class="form-control" id="images-list-edit" name="images">
@@ -92,8 +93,66 @@
       </tr>
     </table>
   </form>
-  </div>
+  <hr>
+  <table class="table text-center table-borderless">
+    <tr class="table-light">
+      <td>Title:</td>
+      <td><input type="text" id="edit-title" name="title" required maxlength="255" class="form-control"></td>
+      <td><button id="edit-title-button" class="btn btn-secondary">Update</button></td>
+    </tr>
+    <tr class="table-light">
+      <td>Description:</td>
+      <td><input type="text" id="edit-description" name="title" required maxlength="255" class="form-control"></td>
+      <td><button id="edit-description-button" class="btn btn-secondary">Update</button></td>
+    </tr>
+  </table>
+  <hr>
 
+  <table class="table text-center table-borderless">
+    <tr class="table-light">
+      <td>Add Rectangle:</td>
+        <td><div class="row"><div class="col col-md-2"><span class="badge badge-primary">X:</span></div><div class="col"><input type="number" id="rect-x" name="x" required maxlength="255" class="form-control"></div></div>
+            <div class="row"><div class="col col-md-2"><span class="badge badge-success">Y:</span></div><div class="col"><input type="number" id="rect-y" name="y" required maxlength="255" class="form-control"></div></div>
+            <div class="row"><div class="col col-md-2"><span class="badge badge-warning">Width:</span></div><div class="col"><input type="number" id="rect-w" name="w" required maxlength="255" min="0" class="form-control"></div></div>
+            <div class="row"><div class="col col-md-2"><span class="badge badge-info">Height:</span></div><div class="col"><input type="number" id="rect-h" name="h" required maxlength="255" min="0" class="form-control"></div></div>
+            <div class="row"><div class="col col-md-2"><span class="badge badge-danger">Units:</span></div><div class="col"><input type="text" id="rect-u" name="u" required maxlength="255" class="form-control"></div></div>
+        </td>
+      <td><button id="rect-button" class="btn btn-secondary">Add</button></td>
+    </tr>
+    <tr class="table-light">
+      <td>Add Circle:</td>
+      <td><div class="row"><div class="col col-md-2"><span class="badge badge-success">CY:</span></div><div class="col"><input type="number" id="circ-x" name="y" required maxlength="255" class="form-control"></div></div>
+      <div class="row"><div class="col col-md-2"><span class="badge badge-warning">CX:</span></div><div class="col"><input type="number" id="circ-y" name="w" required maxlength="255" class="form-control"></div></div>
+      <div class="row"><div class="col col-md-2"><span class="badge badge-info">Radius:</span></div><div class="col"><input type="number" id="circ-r" name="h" required maxlength="255" min="0" class="form-control"></div></div>
+      <div class="row"><div class="col col-md-2"><span class="badge badge-danger">Units:</span></div><div class="col"><input type="text" id="circ-u" name="u" required maxlength="255" class="form-control"></div></div>
+      </td>
+      <td><button id="circ-button" class="btn btn-secondary">Add</button></td>
+    </tr>
+  </table>
+
+  <table class="table text-center table-borderless">
+    <tr class="table-light">
+      <td>Scale all Rectangles by:</td>
+      <td><input type="number" id="scale-rect" name="rect" required maxlength="255" min="0" class="form-control"></td>
+      <td><button id="scale-rect-button" class="btn btn-secondary">Scale</button></td>
+    </tr>
+    <tr class="table-light">
+      <td>Scale all Circles by:</td>
+      <td><input type="number" id="scale-circ" name="circ" required maxlength="255" min="0" class="form-control"></td>
+      <td><button id="scale-circ-button" class="btn btn-secondary">Scale</button></td>
+    </tr>
+  </table>
+
+  <table class="table text-center table-borderless">
+    <tr class="table-light">
+      <td> Filename: </td>
+      <td><input type="text" id="filename" name="filename" required maxlength="255" class="form-control"></td>
+      <td><button id="filename-button" class="btn btn-secondary">Create SVG</button></td>
+    </tr>
+  </table>
+
+
+  <hr>
 
     <hr>
     <div id="blah">I am blah</div>

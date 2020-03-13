@@ -18,12 +18,12 @@ typedef struct  {
     //Attribute name.  Must not be NULL
 	char* 	name;
     //Attribute value.  Must not be NULL
-	char*	value; 
+	char*	value;
 } Attribute;
 
 //Represents a group of objects in an SVG file
 typedef struct {
-    
+
 	//All objects in the list will be of type Rectangle.  It must not be NULL.  It may be empty.
     List*   rectangles;
     //All objects in the list will be of type Circle.  It must not be NULL.  It may be empty.
@@ -33,12 +33,12 @@ typedef struct {
     //All objects in the list will be of type Group.  It must not be NULL.  It may be empty.
     List*   groups;
 
-    //Additional rectangle attributes - i.e. attributes of the g XML element.  
+    //Additional rectangle attributes - i.e. attributes of the g XML element.
 	//All objects in the list will be of type Attribute.  It must not be NULL.  It may be empty.
     List* otherAttributes;
 } Group;
 
-//Represents a rectangle primitive 
+//Represents a rectangle primitive
 typedef struct {
     //The X coordinate of the "starting" corner of the rectangle
     float x;
@@ -52,13 +52,13 @@ typedef struct {
     //Units for the rectable coordinates and size.  May be empty.
     char units[50];
 
-    //Additional rectangle attributes - i.e. attributes of the rect XML element.  
+    //Additional rectangle attributes - i.e. attributes of the rect XML element.
 	//All objects in the list will be of type Attribute.  It must not be NULL.  It may be empty.
     List* otherAttributes;
 
 } Rectangle;
 
-//Represents a circle primitive 
+//Represents a circle primitive
 typedef struct {
     //The X coordinate of circle centre
     float cx;
@@ -70,7 +70,7 @@ typedef struct {
     //Units for the circle coordinates and size.  May be empty.
     char units[50];
 
-    //Additional circle attributes - i.e. attributes of the circle XML element.  
+    //Additional circle attributes - i.e. attributes of the circle XML element.
     //All objects in the list will be of type Attribute.  It must not be NULL.  It may be empty.
     List* otherAttributes;
 
@@ -81,7 +81,7 @@ typedef struct {
     //Path data.  Must not be NULL
     char* data;
 
-    //Additional path attributes - i.e. attributes of the path XML element.  
+    //Additional path attributes - i.e. attributes of the path XML element.
     //All objects in the list will be of type Attribute.  It must not be NULL.  It may be empty.
     List* otherAttributes;
 
@@ -92,8 +92,8 @@ typedef struct {
 // images will only have one
 typedef struct {
 
-    //For tghe fixed-length fields below, verify that the relevant data fits before copying 
-    //it into the field. 
+    //For tghe fixed-length fields below, verify that the relevant data fits before copying
+    //it into the field.
     //If the data exceeds thre field length, truncate the data to fit the max field length.
 
     //Namespace associated with our SVG image.  May be not be empty.  While a real SVG image might have
@@ -113,10 +113,10 @@ typedef struct {
     //All objects in the list will be of type Path.  It must not be NULL.  It may be empty.
     List* paths;
     //All objects in the list will be of type Group.  It must not be NULL.  It may be empty.
-    List* groups;  
-   
-    //Additional SVGimage attributes - i.e. attributes of the svg XML element.  
-    //All objects in the list will be of type Attribute.  It must not be NULL.  It may be empty.  
+    List* groups;
+
+    //Additional SVGimage attributes - i.e. attributes of the svg XML element.
+    //All objects in the list will be of type Attribute.  It must not be NULL.  It may be empty.
     //Do not put the namespace here, since it already has its own field
     List* otherAttributes;
 } SVGimage;
@@ -130,7 +130,7 @@ typedef struct {
        File represented by this name must exist and must be readable.
  *@post Either:
         A valid SVGimage has been created and its address was returned
-		or 
+		or
 		An error occurred, and NULL was returned
  *@return the pinter to the new struct or NULL
  *@param fileName - a string containing the name of the SVG file
@@ -153,10 +153,10 @@ char* SVGimageToString(SVGimage* img);
 **/
 void deleteSVGimage(SVGimage* img);
 
-/* For the four "get..." functions below, make sure you return a list of opinters to the existing structs 
- - do not allocate new structs.  They all share the same format, and only differ in the contents of the lists 
+/* For the four "get..." functions below, make sure you return a list of opinters to the existing structs
+ - do not allocate new structs.  They all share the same format, and only differ in the contents of the lists
  they return.
- 
+
  *@pre SVGimgage exists, is not null, and has not been freed
  *@post SVGimgage has not been modified in any way
  *@return a newly allocated List of components.  While the List struct itself is new, the components in it are just pointers
@@ -167,21 +167,21 @@ void deleteSVGimage(SVGimage* img);
  *@param obj - a pointer to an SVG struct
  */
 
-// Function that returns a list of all rectangles in the image.  
+// Function that returns a list of all rectangles in the image.
 List* getRects(SVGimage* img);
-// Function that returns a list of all circles in the image.  
+// Function that returns a list of all circles in the image.
 List* getCircles(SVGimage* img);
-// Function that returns a list of all groups in the image.  
+// Function that returns a list of all groups in the image.
 List* getGroups(SVGimage* img);
-// Function that returns a list of all paths in the image.  
+// Function that returns a list of all paths in the image.
 List* getPaths(SVGimage* img);
 
 
-/* For the four "num..." functions below, you need to search the SVG image for components  that match the search 
+/* For the four "num..." functions below, you need to search the SVG image for components  that match the search
   criterion.  You may wish to write some sort of a generic searcher fucntion that accepts an image, a predicate function,
   and a dummy search record as arguments.  We will discuss such search functions in class
 
- NOTE: For consistency, use the ceil() function to round the floats up to the nearest integer once you have computed 
+ NOTE: For consistency, use the ceil() function to round the floats up to the nearest integer once you have computed
  the number you need.  See A1 Module 2 for details.
 
  *@pre SVGimgage exists, is not null, and has not been freed.  The search criterion is valid
@@ -189,7 +189,7 @@ List* getPaths(SVGimage* img);
  *@return an int indicating how many objects matching the criterion are contained in the image
  *@param obj - a pointer to an SVG struct
  *@param 2nd - the second param depends on the function.  See details below
- */   
+ */
 
 // Function that returns the number of all rectangles with the specified area
 int numRectsWithArea(SVGimage* img, float area);
@@ -202,7 +202,7 @@ int numGroupsWithLen(SVGimage* img, int len);
 
 /*  Function that returns the total number of Attribute structs in the SVGimage - i.e. the number of Attributes
     contained in all otherAttributes lists in the structs making up the SVGimage
-    *@pre SVGimgage  exists, is not null, and has not been freed.  
+    *@pre SVGimgage  exists, is not null, and has not been freed.
     *@post SVGimage has not been modified in any way
     *@return the total length of all attribute structs in the SVGimage
     *@param obj - a pointer to an SVG struct
@@ -212,7 +212,7 @@ int numAttr(SVGimage* img);
 
 /* ******************************* A2 stuff *************************** */
 /** Function to validating an existing a SVGimage object against a SVG schema file
- *@pre 
+ *@pre
     SVGimage object exists and is not NULL
     schema file name is not NULL/empty, and represents a valid schema file
  *@post SVGimage has not been modified in any way
@@ -230,7 +230,7 @@ bool validateSVGimage(SVGimage* image, char* schemaFile);
        Schema file name is not NULL/empty, and represents a valid schema file
  *@post Either:
         A valid SVGimage has been created and its address was returned
-		or 
+		or
 		An error occurred, or SVG file was invalid, and NULL was returned
  *@return the pinter to the new struct or NULL
  *@param fileName - a string containing the name of the SVG file

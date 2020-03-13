@@ -70,6 +70,8 @@ $(document).ready(function() {
             $("#image-img").html("<img src=\"" + $('#images-list option:selected').text() + "\" width=\"800px\">");
             $("#image-title").html(data["title"]);
             $("#image-desc").html(data["description"]);
+            $("#edit-title").attr("placeholder", data["title"]);
+            $("#edit-description").attr("placeholder", data["description"]);
             $("#view-table-foot").html(" ");
             $("#images-list-edit").html(" ");
             for (var i = 0; i < data["rectangles"].length; i++) {
@@ -81,7 +83,7 @@ $(document).ready(function() {
                 "<tr>" +
                   "<td>Rectangle " + (i+1) + "</td>" +
                   "<td>Upper left corner: x = " + data["rectangles"][i]["x"]+data["rectangles"][i]["units"] + ", y = " +
-                  data["rectangles"][i]["y"]+data["rectangles"][i]["units"] + " Width: " + data["rectangles"][i]["w"] +
+                  data["rectangles"][i]["y"]+data["rectangles"][i]["units"] + ", Width: " + data["rectangles"][i]["w"] +
                   data["rectangles"][i]["units"] + ", Height: " + data["rectangles"][i]["h"]+data["rectangles"][i]["units"] + "</td>" +
                   "<td>" + "<button class=\"btn btn-outline-info\" id=\"rb"+(i+1)+ "\" onClick=\"reply_click(this)\">" + data["rectangles"][i]["numAttr"] + "</button>" +
                   "<p id=\"rb" + (i+1) + "p\" style=\"display: none\">"+ attrs + "</p></td>" +
@@ -168,6 +170,173 @@ $(document).ready(function() {
         });
     });
 
+    $('#edit-title-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/edit-title',
+            data: {
+                title: $("#edit-title").val(),
+                image: $('#images-list option:selected').text()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Something went wrong, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#edit-description-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/edit-description',
+            data: {
+                description: $("#edit-description").val(),
+                image: $('#images-list option:selected').text()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Something went wrong, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#filename-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/create-file',
+            data: {
+                filename: $("#filename").val()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Filename not valid or file already exists, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#rect-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/add-rect',
+            data: {
+                x: $("#rect-x").val(),
+                y: $("#rect-y").val(),
+                w: $("#rect-w").val(),
+                h: $("#rect-h").val(),
+                units: $("#rect-u").val(),
+                filename: $('#images-list option:selected').text()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Rectangle no valid, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#circ-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/add-circ',
+            data: {
+                x: $("#circ-x").val(),
+                y: $("#circ-y").val(),
+                r: $("#circ-r").val(),
+                units: $("#circ-u").val(),
+                filename: $('#images-list option:selected').text()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Circle no valid, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#scale-rect-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/scale-rects',
+            data: {
+                scale: $("#scale-rect").val(),
+                filename: $('#images-list option:selected').text()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Not scaled, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
+    $('#scale-circ-button').click(function(){
+        $.ajax({
+            type: 'get',
+            dataType: 'json',
+            url: '/scale-circs',
+            data: {
+                scale: $("#scale-circ").val(),
+                filename: $('#images-list option:selected').text()
+            },
+            success: function (data) {
+              if (data["status"]==1) {
+                location.reload(true);
+              } else {
+                alert("Not scaled, Not saved!");
+              }
+              console.log(data);
+            },
+            fail: function(error) {
+                console.log(error);
+            }
+        });
+    });
+
     $('#edit-form').submit(function(e){
       e.preventDefault();
       let selected = $('#images-list-edit option:selected').text();
@@ -177,7 +346,6 @@ $(document).ready(function() {
       }
       var shape = selected.split(" ");
 
-      console.log(selected);
       $.ajax({
           type: 'get',
           dataType: 'json',
@@ -190,7 +358,12 @@ $(document).ready(function() {
               value: $('#edit-value').val()
           },
           success: function (data) {
-              console.log(data);
+            console.log(data);
+            if (data["status"]==1) {
+              location.reload(true);
+            } else {
+              alert("Change didnt validate, not saved!")
+            }
           },
           fail: function(error) {
               console.log(error);
@@ -201,7 +374,6 @@ $(document).ready(function() {
 
 function reply_click(id) {
   console.log($('#' + (id.id)+'p').text());
-  //document.getElementById((id.id)+'p').style.visibility = "visible";
   $('#' + (id.id)+'p').show("slow");
   id.remove();
 }
