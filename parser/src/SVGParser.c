@@ -1326,9 +1326,11 @@ char* circleToJSON(const Circle *c) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 40 + 24 + 18 + strlen(c->units);
+	int len = 100 + 40 + 24 + 18 + strlen(c->units);
 	final = malloc(sizeof(char) * len);
-	snprintf(final, len, "{\"cx\":%.2f,\"cy\":%.2f,\"r\":%.2f,\"numAttr\":%d,\"units\":\"%s\"}", c->cx, c->cy, c->r, getLength(c->otherAttributes), c->units);
+	char *attrs = attrListToJSON(c->otherAttributes);
+	snprintf(final, len, "{\"cx\":%.2f,\"cy\":%.2f,\"r\":%.2f,\"numAttr\":%d,\"units\":\"%s\",\"attrs\":%s}", c->cx, c->cy, c->r, getLength(c->otherAttributes), c->units, attrs);
+	free(attrs);
 	return final;
 }
 
@@ -1339,9 +1341,11 @@ char* rectToJSON(const Rectangle *r) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 43 + 32 + 18 + strlen(r->units);
+	int len = 100 + 43 + 32 + 18 + strlen(r->units);
 	final = malloc(sizeof(char) * (len));
-	snprintf(final, len, "{\"x\":%.2f,\"y\":%.2f,\"w\":%.2f,\"h\":%.2f,\"numAttr\":%d,\"units\":\"%s\"}", r->x, r->y, r->width, r->height, getLength(r->otherAttributes), r->units);
+	char *attrs = attrListToJSON(r->otherAttributes);
+	snprintf(final, len, "{\"x\":%.2f,\"y\":%.2f,\"w\":%.2f,\"h\":%.2f,\"numAttr\":%d,\"units\":\"%s\",\"attrs\":%s}", r->x, r->y, r->width, r->height, getLength(r->otherAttributes), r->units, attrs);
+	free(attrs);
 	return final;
 }
 
@@ -1352,9 +1356,11 @@ char* pathToJSON(const Path *p) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 19 + 64 + 18;
+	int len = 200 + 19 + 64 + 18;
 	final = malloc(sizeof(char) * len);
-	snprintf(final, len, "{\"d\":\"%.64s\",\"numAttr\":%d}", p->data, getLength(p->otherAttributes));
+	char *attrs = attrListToJSON(p->otherAttributes);
+	snprintf(final, len, "{\"d\":\"%.64s\",\"numAttr\":%d,\"attrs\":%s}", p->data, getLength(p->otherAttributes), attrs);
+	free(attrs);
 	return final;
 }
 
@@ -1365,10 +1371,12 @@ char* groupToJSON(const Group *g) {
 		strcpy(final, "{}");
 		return final;
 	}
-	int len = 24 + 18 + 18;
+	int len = 100 + 24 + 18 + 18;
 	final = malloc(sizeof(char) * len);
+	char *attrs = attrListToJSON(g->otherAttributes);
 	int sum = getLength(g->rectangles) + getLength(g->circles) + getLength(g->paths) + getLength(g->groups);
-	snprintf(final, len, "{\"children\":%d,\"numAttr\":%d}", sum, getLength(g->otherAttributes));
+	snprintf(final, len, "{\"children\":%d,\"numAttr\":%d,\"attrs\":%s}", sum, getLength(g->otherAttributes), attrs);
+	free(attrs);
 	return final;
 }
 
@@ -1404,7 +1412,7 @@ char* attrListToJSON(const List *list) {
 		return final;
 	}
 
-	int len = getLength((List*)list) * 50;
+	int len = getLength((List*)list) * 200;
 	final = malloc(sizeof(char) * len);
 	strcpy(final, "[");
 
@@ -1435,7 +1443,7 @@ char* circListToJSON(const List *list) {
 			return final;
 		}
 
-		int len = getLength((List*)list) * 131;
+		int len = getLength((List*)list) * 200;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1466,7 +1474,7 @@ char* rectListToJSON(const List *list) {
 			strcpy(final, "[]");
 			return final;
 		}
-		int len = getLength((List*)list) * 142;
+		int len = getLength((List*)list) * 200;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1498,7 +1506,7 @@ char* pathListToJSON(const List *list) {
 			return final;
 		}
 
-		int len = getLength((List*)list) * 101;
+		int len = getLength((List*)list) * 200;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 
@@ -1530,7 +1538,7 @@ char* groupListToJSON(const List *list) {
 			return final;
 		}
 
-		int len = getLength((List*)list) * 60;
+		int len = getLength((List*)list) * 200;
 		final = malloc(sizeof(char) * len);
 		strcpy(final, "[");
 

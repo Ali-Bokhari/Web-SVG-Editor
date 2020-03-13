@@ -121,6 +121,7 @@ app.get('/viewpanel', function(req, res) {
   c = parser.getDesc(s);
   image["description"] = c;
   c = parser.getRectListJSON(s);
+  console.log(c);
   image["rectangles"] = JSON.parse(c);
   c = parser.getCircListJSON(s);
   image["circles"] = JSON.parse(c);

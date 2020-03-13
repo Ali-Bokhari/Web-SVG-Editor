@@ -73,13 +73,18 @@ $(document).ready(function() {
             $("#view-table-foot").html(" ");
             $("#images-list-edit").html(" ");
             for (var i = 0; i < data["rectangles"].length; i++) {
+              let attrs = '|';
+              for (var j = 0; j < data["rectangles"][i]["attrs"].length; j++){
+                attrs += data["rectangles"][i]["attrs"][j]["name"] + ": " + data["rectangles"][i]["attrs"][j]["value"] + "| ";
+              }
               $("#view-table-foot").append(
                 "<tr>" +
                   "<td>Rectangle " + (i+1) + "</td>" +
                   "<td>Upper left corner: x = " + data["rectangles"][i]["x"]+data["rectangles"][i]["units"] + ", y = " +
                   data["rectangles"][i]["y"]+data["rectangles"][i]["units"] + " Width: " + data["rectangles"][i]["w"] +
-                  data["rectangles"][i]["units"] + ", Height: " + data["rectangles"][i]["h"]+data["rectangles"][i]["units"] +
-                  "<td>" + data["rectangles"][i]["numAttr"] + "</td>" +
+                  data["rectangles"][i]["units"] + ", Height: " + data["rectangles"][i]["h"]+data["rectangles"][i]["units"] + "</td>" +
+                  "<td>" + "<button class=\"btn btn-outline-info\" id=\"rb"+(i+1)+ "\" onClick=\"reply_click(this)\">" + data["rectangles"][i]["numAttr"] + "</button>" +
+                  "<p id=\"rb" + (i+1) + "p\" style=\"display: none\">"+ attrs + "</p></td>" +
                 "</tr>"
               );
               $('#images-list-edit').append($('<option>', {
@@ -88,13 +93,18 @@ $(document).ready(function() {
               }));
             }
             for (var i = 0; i < data["circles"].length; i++) {
+              let attrs = '|';
+              for (var j = 0; j < data["circles"][i]["attrs"].length; j++){
+                attrs += data["circles"][i]["attrs"][j]["name"] + ": " + data["circles"][i]["attrs"][j]["value"] + "| ";
+              }
               $("#view-table-foot").append(
                 "<tr>" +
                   "<td>Circle " + (i+1) + "</td>" +
                   "<td>Centre: x = " + data["circles"][i]["cx"]+data["circles"][i]["units"] + ", y = " +
                   data["circles"][i]["cy"]+data["circles"][i]["units"] + ", radius = " + data["circles"][i]["r"] +
                   data["circles"][i]["units"] + "</td>" +
-                  "<td>" + data["circles"][i]["numAttr"] + "</td>" +
+                  "<td>" + "<button class=\"btn btn-outline-info\" id=\"cb"+(i+1)+ "\" onClick=\"reply_click(this)\">" + data["circles"][i]["numAttr"] + "</button>" +
+                  "<p id=\"cb" + (i+1) + "p\" style=\"display: none\">"+ attrs + "</p></td>" +
                 "</tr>"
               );
               $('#images-list-edit').append($('<option>', {
@@ -103,11 +113,16 @@ $(document).ready(function() {
               }));
             }
             for (var i = 0; i < data["paths"].length; i++) {
+              let attrs = '|';
+              for (var j = 0; j < data["paths"][i]["attrs"].length; j++){
+                attrs += data["paths"][i]["attrs"][j]["name"] + ": " + data["paths"][i]["attrs"][j]["value"] + "| ";
+              }
               $("#view-table-foot").append(
                 "<tr>" +
                   "<td>Path " + (i+1) + "</td>" +
                   "<td>path data = " + data["paths"][i]["d"] + "</td>" +
-                  "<td>" + data["paths"][i]["numAttr"] + "</td>" +
+                  "<td>" + "<button class=\"btn btn-outline-info\" id=\"pb"+(i+1)+ "\" onClick=\"reply_click(this)\">" + data["paths"][i]["numAttr"] + "</button>" +
+                  "<p id=\"pb" + (i+1) + "p\" style=\"display: none\">"+ attrs + "</p></td>" +
                 "</tr>"
               );
               $('#images-list-edit').append($('<option>', {
@@ -116,11 +131,16 @@ $(document).ready(function() {
               }));
             }
             for (var i = 0; i < data["groups"].length; i++) {
+              let attrs = '|';
+              for (var j = 0; j < data["groups"][i]["attrs"].length; j++){
+                attrs += data["groups"][i]["attrs"][j]["name"] + ": " + data["groups"][i]["attrs"][j]["value"] + "| ";
+              }
               $("#view-table-foot").append(
                 "<tr>" +
                   "<td>Group " + (i+1) + "</td>" +
                   "<td>" + data["groups"][i]["children"] + " child elements</td>" +
-                  "<td>" + data["groups"][i]["numAttr"] + "</td>" +
+                  "<td>" + "<button class=\"btn btn-outline-info\" id=\"gb"+(i+1)+ "\" onClick=\"reply_click(this)\">" + data["groups"][i]["numAttr"] + "</button>" +
+                  "<p id=\"gb" + (i+1) + "p\" style=\"display: none\">"+ attrs + "</p></td>" +
                 "</tr>"
               );
               $('#images-list-edit').append($('<option>', {
@@ -178,3 +198,10 @@ $(document).ready(function() {
       });
     });
 });
+
+function reply_click(id) {
+  console.log($('#' + (id.id)+'p').text());
+  //document.getElementById((id.id)+'p').style.visibility = "visible";
+  $('#' + (id.id)+'p').show("slow");
+  id.remove();
+}
