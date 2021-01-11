@@ -7,5 +7,5 @@ Run instuctions:
 npm install
 cd parser
 make
-cd ..
+cd .. 
 npm run dev [port]
